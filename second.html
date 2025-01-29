@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkillEduu - Where Passion Meets Learning</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Custom animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+      .fade-in {
+        animation: fadeIn 1s ease-out;
+      }
+      .float {
+        animation: float 4s ease-in-out infinite;
+      }
+      .gradient-bg {
+        background: linear-gradient(135deg, #6ee7b7 0%, #3b82f6 100%);
+      }
+      /* Hide all sections by default */
+      section {
+        display: none;
+        height: 100vh;
+        width: 100vw;
+      }
+      /* Show the active section */
+      section.active {
+        display: flex;
+      }
+      /* Ensure the button is above the wave SVG */
+      .get-started-button {
+        position: relative;
+        z-index: 10; /* Higher z-index to ensure it's above the SVG */
+      }
+      /* Ensure the wave SVG stays at the bottom */
+      .wave-svg {
+        position: absolute;
+        bottom: 0;
+        z-index: 1; /* Lower z-index to ensure it's below the button */
+      }
+      /* Split layout for Section 2 */
+      .split-layout {
+        display: flex;
+        flex-direction: column; /* Stack vertically on mobile */
+        height: 100vh;
+      }
+      @media (min-width: 768px) {
+        .split-layout {
+          flex-direction: row; /* Side by side on desktop */
+        }
+      }
+      .right-part,
+      .left-part {
+        width: 100%; /* Full width on mobile */
+        height: 50vh; /* Half height on mobile */
+      }
+      @media (min-width: 768px) {
+        .right-part,
+        .left-part {
+          width: 50vw; /* Half width on desktop */
+          height: 100vh; /* Full height on desktop */
+        }
+      }
+      .left-part {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start; /* Align form to the top */
+        background-color: #ffffff;
+        overflow-y: auto; /* Enable vertical scrolling */
+        padding: 2rem 0; /* Add padding to ensure form doesn't stick to edges */
+        scrollbar-width: none; /* Hide scrollbar for Firefox */
+        -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+      }
+      .left-part::-webkit-scrollbar {
+        display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+      }
+      .right-part {
+        background: linear-gradient(135deg, #6ee7b7 0%, #3b82f6 100%);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .backToLanding {
+        background: linear-gradient(135deg, #6ee7b7 0%, #3b82f6 100%);
+      }
+      /* Right Part Design */
+      .right-part-content {
+        text-align: center;
+        color: white;
+        z-index: 2;
+      }
+      .right-part h2 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+      }
+      .right-part p {
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+      }
+      .illustration {
+        max-width: 80%;
+        height: auto;
+        margin-top: 2rem;
+      }
+      /* Floating Circles Animation */
+      .floating-circles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1;
+      }
+      .floating-circles div {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        animation: float 5s infinite;
+      }
+      .floating-circles div:nth-child(1) {
+        width: 150px;
+        height: 150px;
+        top: 10%;
+        left: 20%;
+        animation-duration: 6s;
+      }
+      .floating-circles div:nth-child(2) {
+        width: 100px;
+        height: 100px;
+        top: 50%;
+        left: 70%;
+        animation-duration: 8s;
+      }
+      .floating-circles div:nth-child(3) {
+        width: 200px;
+        height: 200px;
+        top: 70%;
+        left: 40%;
+        animation-duration: 10s;
+      }
+      .floating-circles div:nth-child(4) {
+        width: 200px;
+        height: 200px;
+        top: 10%;
+        left: 60%;
+        animation-duration: 10s;
+      }
+      .floating-circles div:nth-child(5) {
+        width: 200px;
+        height: 200px;
+        top: 38%;
+        left: 3%;
+        animation-duration: 10s;
+      }
+      /* Section 3: Roadmap/Mind Map Background */
+      #section3 {
+        background-color: #ffffff; /* White background */
+        position: relative;
+        overflow: hidden;
+      }
+      #section3::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(110, 231, 183, 0.1) 0%,
+          rgba(59, 130, 246, 0.1) 100%
+        ); /* Subtle gradient */
+        z-index: 1;
+      }
+      /* Floating Shapes Animation */
+      .floating-shapes {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 2;
+      }
+      .floating-shapes div {
+        position: absolute;
+        background: linear-gradient(135deg, #6ee7b7 0%, #3b82f6 100%);
+        border-radius: 50%;
+        animation: float 10s infinite;
+      }
+      .floating-shapes div:nth-child(1) {
+        width: 200px;
+        height: 200px;
+        top: 30%;
+        left: 5%;
+        animation-duration: 8s;
+      }
+      .floating-shapes div:nth-child(2) {
+        width: 150px;
+        height: 150px;
+        top: 50%;
+        left: 80%;
+        animation-duration: 12s;
+      }
+      .floating-shapes div:nth-child(3) {
+        width: 100px;
+        height: 100px;
+        top: 80%;
+        left: 34%;
+        animation-duration: 10s;
+      }
+      #section3 h2 {
+        color: #3b82f6; /* Blue heading */
+      }
+      .roadmap-card {
+        background-color: #f9fafbcf; /* Soft gray background */
+        border: 1px solid #e5e7eb; /* Light gray border */
+        border-radius: 12px; /* Rounded corners */
+        padding: 24px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .roadmap-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(59, 130, 246, 0.1); /* Blue shadow */
+      }
+      .roadmap-card h3 {
+        color: #3b82f6; /* Blue heading */
+        margin-bottom: 16px;
+      }
+      .roadmap-card p {
+        color: #4b5563; /* Gray text */
+      }
+      /* Gradient background for the section heading */
+      #section3 h2 {
+        background: linear-gradient(135deg, #6ee7b7 0%, #3b82f6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+      }
+      /* Mini Navigation Styling */
+      .nav-item {
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+      .nav-item.active {
+        background-color: #3b82f6; /* Blue background for active state */
+        color: white;
+      }
+      .nav-item:not(.active):hover {
+        background-color: #e5e7eb; /* Light gray background on hover */
+        transform: translateY(-2px); /* Slight lift on hover */
+      }
+      /* Pop-Up Container Styling */
+      #popup {
+        transition: opacity 0.3s ease;
+      }
+      #popup .bg-white {
+        animation: slideIn 0.3s ease;
+        max-height: 90vh; /* Limit height to 90% of viewport */
+        overflow-y: auto; /* Enable vertical scrolling */
+        scrollbar-width: none; /* Hide scrollbar for Firefox */
+        -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+      }
+      #popup .bg-white::-webkit-scrollbar {
+        display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+      }
+      @keyframes slideIn {
+        from {
+          transform: translateY(-20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      /* Video Container Styling */
+      .video-container {
+        margin-bottom: 1.5rem; /* Space between videos */
+      }
+      .video-container iframe {
+        border-radius: 8px; /* Rounded corners for videos */
+      }
+      .video-container p {
+        margin-top: 0.5rem; /* Space below video */
+        font-size: 0.9rem; /* Smaller text for video titles */
+        color: #4b5563; /* Gray text color */
+      }
+      /* Status Indicator Styling */
+      .status {
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      .status.completed {
+        background-color: #dcfce7; /* Light green background */
+        color: #166534; /* Dark green text */
+      }
+      .status.pending {
+        background-color: #f3f4f6; /* Light gray background */
+        color: #374151; /* Dark gray text */
+      }
+      /* Project and Hackathon Card Styling */
+      .project-card,
+      .hackathon-card {
+        background-color: #f9fafb; /* Soft gray background */
+        border: 1px solid #e5e7eb; /* Light gray border */
+        border-radius: 12px; /* Rounded corners */
+        padding: 24px;
+        min-width: 345px; /* Minimum width for cards */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .project-card:hover,
+      .hackathon-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(59, 130, 246, 0.1); /* Blue shadow */
+      }
+      .project-card h4,
+      .hackathon-card h4 {
+        color: #3b82f6; /* Blue heading */
+        margin-bottom: 16px;
+      }
+      .project-card p,
+      .hackathon-card p {
+        color: #4b5563; /* Gray text */
+      }
+      .project-card a,
+      .hackathon-card a {
+        transition: background-color 0.3s ease;
+      }
+      /* Arrow Styling */
+      .scroll-left,
+      .scroll-right {
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+      #section4 {
+        height: 100vh; /* Full viewport height */
+        overflow-y: auto; /* Enable vertical scrolling */
+        scrollbar-width: none; /* Hide scrollbar for Firefox */
+        -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+      }
+      
+      #section4::-webkit-scrollbar {
+        display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+      }
+      #Setion4BackButton{
+        background: linear-gradient(135deg, #6ee7b7 0%, #3b82f6 100%);
+      }
+      #Setion4Heading{
+        background: linear-gradient(135deg, #6ee7b7 0%, #3b82f6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      /* Hide horizontal scrollbar but allow scrolling */
+.overflow-x-auto {
+  overflow-x: auto;
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+.overflow-x-auto::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}
+      /* Hide arrows when not needed */
+      .scroll-left.disabled,
+      .scroll-right.disabled {
+        opacity: 0.3;
+        pointer-events: none;
+      }
+      /* Internship and Job Card Styling */
+      #section5 {
+        height: 100vh; /* Full viewport height */
+        overflow-y: auto; /* Enable vertical scrolling */
+        scrollbar-width: none; /* Hide scrollbar for Firefox */
+        -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+      }
+      
+      #section5::-webkit-scrollbar {
+        display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+      }
+      #Setion5BackButton{
+        background: linear-gradient(135deg, #6ee7b7 0%, #3b82f6 100%);
+      }
+      #Setion5Heading{
+        background: linear-gradient(135deg, #6ee7b7 0%, #3b82f6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .internship-card,
+      .job-card {
+        background-color: #f9fafb; /* Soft gray background */
+        border: 1px solid #e5e7eb; /* Light gray border */
+        border-radius: 12px; /* Rounded corners */
+        padding: 24px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .internship-card:hover,
+      .job-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(59, 130, 246, 0.1); /* Blue shadow */
+      }
+      .internship-card h4,
+      .job-card h4 {
+        color: #3b82f6; /* Blue heading */
+        margin-bottom: 16px;
+      }
+      .internship-card p,
+      .job-card p {
+        color: #4b5563; /* Gray text */
+      }
+      .internship-card a,
+      .job-card a {
+        transition: background-color 0.3s ease;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-900 font-sans overflow-hidden">
+    <!-- Landing Page Section -->
+    <section id="landing" class="gradient-bg text-white active">
+      <div class="floating-circles">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div class="text-center fade-in m-auto">
+        <h1 class="text-5xl font-bold mb-4">Discover Your Passion</h1>
+        <p class="text-xl mb-8 max-w-2xl mx-auto">
+          Are you struggling to choose a career path that aligns with your true
+          passions? Let us help you explore your interests, overcome societal
+          pressures, and build a future you love.
+        </p>
+        <button
+          onclick="showSection('section2')"
+          class="get-started-button inline-block bg-white text-blue-600 px-8 py-3 rounded-full font-semibold shadow-lg hover:bg-gray-100 transition duration-300"
+        >
+          Get Started
+        </button>
+      </div>
+      <!-- Animated Wave Background -->
+      <div class="wave-svg w-full">
+        <svg
+          viewBox="0 0 1440 320"
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-full"
+        >
+          <path
+            fill="#ffffff"
+            fill-opacity="1"
+            d="M0,160L48,149.3C96,139,192,117,288,128C384,139,480,181,576,181.3C672,181,768,139,864,128C960,117,1056,139,1152,149.3C1248,160,1344,160,1392,160L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+          ></path>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Section 2: AI-Integrated Form -->
+    <section id="section2" class="bg-white text-gray-900">
+      <div class="split-layout">
+        <!-- Left Part: Form -->
+        <div class="left-part">
+          <!-- Back Button -->
+          <button
+            onclick="showSection('landing')"
+            class="backToLanding absolute top-4 left-4 text-white px-4 py-2 rounded-full font-semibold shadow-lg hover:bg-blue-700 transition duration-300"
+          >
+            ← Back
+          </button>
+          <div
+            class="w-full max-w-md p-8 bg-gray-50 rounded-lg shadow-lg fade-in mt-16"
+          >
+            <h2 class="text-3xl font-bold mb-6 text-center">
+              Tell Us About Yourself
+            </h2>
+            <form id="aiForm" class="space-y-6">
+              <!-- Name -->
+              <div>
+                <label
+                  for="name"
+                  class="block text-sm font-medium text-gray-700"
+                  >Name</label
+                >
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value="Bramhos"
+                  required
+                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  readonly
+                />
+              </div>
+              <!-- Age -->
+              <div>
+                <label for="age" class="block text-sm font-medium text-gray-700"
+                  >Age</label
+                >
+                <input
+                  type="number"
+                  id="age"
+                  name="age"
+                  value="18"
+                  required
+                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  readonly
+                />
+              </div>
+              <!-- Email -->
+              <div>
+                <label
+                  for="email"
+                  class="block text-sm font-medium text-gray-700"
+                  >Email (optional)</label
+                >
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value="bramhos@gmail.com"
+                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  readonly
+                />
+              </div>
+              <!-- Interests -->
+              <div>
+                <label
+                  for="interests"
+                  class="block text-sm font-medium text-gray-700"
+                  >Interests</label
+                >
+                <textarea
+                  id="interests"
+                  name="interests"
+                  rows="3"
+                  required
+                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  readonly
+                >
+Writing, Coding, Design</textarea
+                >
+              </div>
+              <!-- Skills -->
+              <div>
+                <label
+                  for="skills"
+                  class="block text-sm font-medium text-gray-700"
+                  >Skills</label
+                >
+                <textarea
+                  id="skills"
+                  name="skills"
+                  rows="3"
+                  required
+                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  readonly
+                >
+Python, Graphic Design, Public Speaking</textarea
+                >
+              </div>
+              <!-- Bio -->
+              <div>
+                <label for="bio" class="block text-sm font-medium text-gray-700"
+                  >A Little About You</label
+                >
+                <textarea
+                  id="bio"
+                  name="bio"
+                  rows="4"
+                  required
+                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  readonly
+                >
+I am a Computer Science and I want to become Full Stack Developer</textarea
+                >
+              </div>
+              <!-- Submit Button -->
+              <div class="text-center">
+                <button
+                  type="submit"
+                  class="inline-block bg-blue-600 text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:bg-blue-700 transition duration-300"
+                >
+                  Analyze My Passion
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Right Part: Attractive Design -->
+        <div class="right-part">
+          <!-- Floating Circles Animation -->
+          <div class="floating-circles">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <!-- Content -->
+          <div class="right-part-content">
+            <h2 class="text-4xl font-bold mb-4">Find Your Path</h2>
+            <p class="text-xl mb-8">
+              Discover careers that align with your passions and skills.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Roadmap/Mind Map -->
+    <section id="section3" class="bg-white text-gray-900">
+      <!-- Floating Shapes Background -->
+      <div class="floating-shapes">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div class="w-full max-w-6xl mx-auto p-8 relative z-10">
+        <!-- Heading and Mini Navigation -->
+        <div class="flex justify-between items-center mb-8">
+          <h2 class="text-4xl font-bold">Your Career Roadmap</h2>
+        </div>
+
+        <!-- Roadmap Content -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Roadmap Cards -->
+          <div class="roadmap-card">
+            <h3 class="text-2xl font-semibold mb-4">
+              Step 1: Master Core Programming
+            </h3>
+            <p class="text-gray-600">
+              Deepen your knowledge of <strong>Python</strong> and learn
+              additional languages like <strong>JavaScript</strong> and
+              <strong>SQL</strong> to build a strong foundation in programming.
+            </p>
+          </div>
+          <div class="roadmap-card">
+            <h3 class="text-2xl font-semibold mb-4">
+              Step 2: Learn Frontend Development
+            </h3>
+            <p class="text-gray-600">
+              Explore <strong>HTML</strong>, <strong>CSS</strong>, and
+              <strong>JavaScript</strong> frameworks like
+              <strong>React</strong> or <strong>Vue.js</strong> to create
+              interactive and responsive user interfaces.
+            </p>
+          </div>
+          <div class="roadmap-card">
+            <h3 class="text-2xl font-semibold mb-4">
+              Step 3: Dive into Backend Development
+            </h3>
+            <p class="text-gray-600">
+              Learn backend technologies like <strong>Node.js</strong>,
+              <strong>Express</strong>, and databases like
+              <strong>MongoDB</strong> or <strong>PostgreSQL</strong> to build
+              robust server-side applications.
+            </p>
+          </div>
+          <div class="roadmap-card">
+            <h3 class="text-2xl font-semibold mb-4">
+              Step 4: Enhance Design Skills
+            </h3>
+            <p class="text-gray-600">
+              Leverage your <strong>Graphic Design</strong> skills to create
+              visually appealing UI/UX designs using tools like
+              <strong>Figma</strong> or <strong>Adobe XD</strong>.
+            </p>
+          </div>
+          <div class="roadmap-card">
+            <h3 class="text-2xl font-semibold mb-4">
+              Step 5: Build a Portfolio
+            </h3>
+            <p class="text-gray-600">
+              Showcase your projects, including
+              <strong>Full Stack Applications</strong>,
+              <strong>UI/UX Designs</strong>, and
+              <strong>Python Scripts</strong>, to attract potential employers.
+            </p>
+          </div>
+          <div class="roadmap-card">
+            <h3 class="text-2xl font-semibold mb-4">
+              Step 6: Network and Share Knowledge
+            </h3>
+            <p class="text-gray-600">
+              Use your <strong>Public Speaking</strong> skills to share your
+              journey, write blogs about your projects, and connect with
+              professionals in the tech industry.
+            </p>
+          </div>
+        </div>
+        <div style="margin-top: 30px;" class="text-center course-outline">
+            <button
+              type="submit"
+              class="inline-block bg-blue-600 text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:bg-blue-700 transition duration-300"
+            >
+              Continue
+            </button>
+          </div>
+      </div>
+    </section>
+
+    <script>
+      function showLoading() {
+        // Create the loading container
+        const loadingContainer = document.createElement("div");
+        loadingContainer.style.position = "fixed";
+        loadingContainer.style.top = "0";
+        loadingContainer.style.left = "0";
+        loadingContainer.style.width = "100%";
+        loadingContainer.style.height = "100%";
+        loadingContainer.style.backgroundColor = "rgba(255, 255, 255, 0.9)"; // Semi-transparent white background
+        loadingContainer.style.display = "flex";
+        loadingContainer.style.justifyContent = "center";
+        loadingContainer.style.alignItems = "center";
+        loadingContainer.style.zIndex = "1000"; // Ensure it's above other content
+        loadingContainer.style.opacity = "0"; // Start with 0 opacity for fade-in
+        loadingContainer.style.transition = "opacity 0.5s ease";
+
+        // Create the loading spinner
+        const spinner = document.createElement("div");
+        spinner.style.border = "8px solid #f3f3f3"; // Light gray border
+        spinner.style.borderTop = "8px solid #3B82F6"; // Blue border for animation
+        spinner.style.borderRadius = "50%";
+        spinner.style.width = "60px";
+        spinner.style.height = "60px";
+        spinner.style.animation = "spin 1s linear infinite"; // Spin animation
+
+        // Add the spinner to the container
+        loadingContainer.appendChild(spinner);
+
+        // Add the container to the body
+        document.body.appendChild(loadingContainer);
+
+        // Fade in the loading container
+        setTimeout(() => {
+          loadingContainer.style.opacity = "1";
+        }, 10);
+
+        // Define the spin animation
+        const styleSheet = document.createElement("style");
+        styleSheet.innerHTML = `
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  `;
+        document.head.appendChild(styleSheet);
+      }
+
+      function hideLoading() {
+        const loadingContainer = document.querySelector(
+          'div[style*="z-index: 1000"]'
+        );
+        if (loadingContainer) {
+          loadingContainer.style.opacity = "0"; // Fade out
+          setTimeout(() => {
+            loadingContainer.remove(); // Remove after fade-out
+          }, 500); // Match the transition duration
+        }
+      }
+      // Function to show a specific section and hide others
+function showSection(sectionId) {
+  // Show loading spinner
+  showLoading();
+
+  // Simulate an async operation (e.g., API call or content loading)
+  setTimeout(() => {
+    // Hide loading spinner after 1 second
+    hideLoading();
+
+    // Hide all sections
+    document.querySelectorAll("section").forEach((section) => {
+      section.classList.remove("active");
+      section.style.opacity = "0"; // Fade out effect
+      section.style.transform = "translateY(20px)"; // Slide down effect
+    });
+
+    // Show the requested section with a fade-in and slide-up effect
+    const activeSection = document.getElementById(sectionId);
+    activeSection.classList.add("active");
+    setTimeout(() => {
+      activeSection.style.opacity = "1";
+      activeSection.style.transform = "translateY(0)";
+    }, 10); // Small delay to trigger the transition
+
+    // Update active state of nav buttons
+    document.querySelectorAll(".nav-item").forEach((button) => {
+      button.classList.remove("active");
+      button.classList.add("bg-gray-200", "text-gray-700");
+    });
+    const activeButton = document.querySelector(
+      `.nav-item[data-section="${sectionId}"]`
+    );
+    if (activeButton) {
+      activeButton.classList.remove("bg-gray-200", "text-gray-700");
+      activeButton.classList.add("active", "bg-blue-600", "text-white");
+    }
+  }, 1000); // Simulate a 1-second delay for loading
+}
+      function showPopup(title, videos) {
+        const popup = document.getElementById("popup");
+        const popupTitle = document.getElementById("popupTitle");
+        const popupContent = document.getElementById("popupContent");
+
+        // Set the title
+        popupTitle.textContent = title;
+
+        // Clear previous content
+        popupContent.innerHTML = "";
+
+        // Add YouTube videos with status
+        videos.forEach((video) => {
+          const videoElement = document.createElement("div");
+          videoElement.className = "video-container";
+          videoElement.innerHTML = `
+      <iframe width="100%" height="315" src="${video.url}" title="${
+            video.title
+          }" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <div class="flex justify-between items-center mt-2">
+        <p class="text-gray-600">${video.title}</p>
+        <span class="status px-3 py-1 rounded-full text-sm font-semibold ${
+          video.watched
+            ? "bg-green-100 text-green-800"
+            : "bg-gray-100 text-gray-800"
+        }">
+          ${video.watched ? "Completed" : "Pending"}
+        </span>
+      </div>
+    `;
+          popupContent.appendChild(videoElement);
+        });
+
+        // Show the pop-up
+        popup.classList.remove("hidden");
+      }      
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const continueButton = document.querySelector(".course-outline button");
+
+        continueButton.addEventListener("click", function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            window.location.href = "dashboard.html"; // Redirect to Dashboard.html
+        });
+    });
+
+
+
+      function hideLoading() {
+        const loadingContainer = document.querySelector(
+          'div[style*="z-index: 1000"]'
+        );
+        if (loadingContainer) {
+          loadingContainer.style.opacity = "0"; // Fade out
+          setTimeout(() => {
+            loadingContainer.remove(); // Remove after fade-out
+          }, 500); // Match the transition duration
+        }
+      }
+
+      document
+        .getElementById("aiForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          // Show loading animation
+          showLoading();
+
+          // Simulate AI processing delay
+          setTimeout(() => {
+            // Hide loading animation
+            hideLoading();
+
+            // Hide Section 2 and show Section 3
+            showSection("section3");
+          }, 1000); // 2-second delay for simulation
+        });
+
+      // Function to show the pop-up
+      function showPopup(title, videos) {
+        const popup = document.getElementById("popup");
+        const popupTitle = document.getElementById("popupTitle");
+        const popupContent = document.getElementById("popupContent");
+
+        // Set the title
+        popupTitle.textContent = title;
+
+        // Clear previous content
+        popupContent.innerHTML = "";
+
+        // Add YouTube videos with status
+        videos.forEach((video) => {
+          const videoElement = document.createElement("div");
+          videoElement.className = "video-container";
+          videoElement.innerHTML = `
+      <iframe width="100%" height="315" src="${video.url}" title="${
+            video.title
+          }" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <div class="flex justify-between items-center mt-2">
+        <p class="text-gray-600">${video.title}</p>
+        <span class="status px-3 py-1 rounded-full text-sm font-semibold ${
+          video.watched
+            ? "bg-green-100 text-green-800"
+            : "bg-gray-100 text-gray-800"
+        }">
+          ${video.watched ? "Completed" : "Pending"}
+        </span>
+      </div>
+    `;
+          popupContent.appendChild(videoElement);
+        });
+
+        // Show the pop-up
+        popup.classList.remove("hidden");
+      }
+      // Function to hide the pop-up
+      function hidePopup() {
+        const popup = document.getElementById("popup");
+        popup.classList.add("hidden");
+      }
+
+      // Event listeners for roadmap steps
+      document.querySelectorAll(".roadmap-card").forEach((card) => {
+        card.addEventListener("click", () => {
+          const title = card.querySelector("h3").textContent;
+
+          const videos = [
+            {
+              url: "https://www.youtube.com/embed/kqtD5dpn9C8",
+              title: "Python Tutorial",
+              watched: true,
+            },
+            {
+              url: "https://www.youtube.com/embed/PkZNo7MFNFg",
+              title: "JavaScript Tutorial",
+              watched: true,
+            },
+            {
+              url: "https://www.youtube.com/embed/HXV3zeQKqGY",
+              title: "SQL Tutorial",
+              watched: false,
+            },
+          ];
+
+          showPopup(title, videos);
+        });
+      });
+
+      // Event listener for close button
+      document
+        .getElementById("closePopup")
+        .addEventListener("click", hidePopup);
+
+      // Event listener to close pop-up when clicking outside
+      document.getElementById("popup").addEventListener("click", (e) => {
+        if (e.target === document.getElementById("popup")) {
+          hidePopup();
+        }
+      });
+
+
+      // Event listeners for nav buttons
+      document.querySelectorAll(".nav-item").forEach((button) => {
+        button.addEventListener("click", () => {
+          const sectionId = button.getAttribute("data-section");
+          showSection(sectionId);
+        });
+      });
+
+
+
+// Function to populate Section 4 with data
+function populateIntermediateSection() {
+  const projectsContainer = document.querySelector(".ProjectCards");
+  const hackathonsContainer = document.querySelector(".HackathonCards");
+
+  // Clear previous content
+  projectsContainer.innerHTML = "";
+  hackathonsContainer.innerHTML = "";
+
+  // Add Projects
+  intermediateData1.projects.forEach((project) => {
+    const projectCard = document.createElement("div");
+    projectCard.className = "project-card";
+    projectCard.innerHTML = `
+      <h4 class="text-2xl font-semibold mb-4">${project.title}</h4>
+      <p class="text-gray-600">${project.description}</p>
+      <a href="${project.link}" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-full font-semibold shadow-lg hover:bg-blue-700 transition duration-300">
+        View Project
+      </a>
+    `;
+    projectsContainer.appendChild(projectCard);
+  });
+
+  // Add Hackathons
+  intermediateData2.hackathons.forEach((hackathon) => {
+    const hackathonCard = document.createElement("div");
+    hackathonCard.className = "hackathon-card";
+    hackathonCard.innerHTML = `
+      <h4 class="text-2xl font-semibold mb-4">${hackathon.title}</h4>
+      <p class="text-gray-600">${hackathon.description}</p>
+      <a href="${hackathon.link}" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-full font-semibold shadow-lg hover:bg-blue-700 transition duration-300">
+        Participate
+      </a>
+    `;
+    hackathonsContainer.appendChild(hackathonCard);
+  });
+}
+
+// Call the function when Section 4 is shown
+document.querySelector('.nav-item[data-section="section4"]').addEventListener("click", populateIntermediateSection);
+
+// Function to populate Advanced Section with data
+function populateAdvancedSection() {
+  const internshipsContainer = document.querySelector(".InternshipCards");
+  const jobsContainer = document.querySelector(".JobCards");
+
+  // Clear previous content
+  internshipsContainer.innerHTML = "";
+  jobsContainer.innerHTML = "";
+
+  // Add Internships
+  advancedData.internships.forEach((internship) => {
+    const internshipCard = document.createElement("div");
+    internshipCard.className = "internship-card";
+    internshipCard.innerHTML = `
+      <h4 class="text-2xl font-semibold mb-4">${internship.title}</h4>
+      <p class="text-gray-600"><strong>Company:</strong> ${internship.company}</p>
+      <p class="text-gray-600"><strong>Location:</strong> ${internship.location}</p>
+      <p class="text-gray-600">${internship.description}</p>
+      <p class="text-gray-600 mt-2"><strong>Skills Required:</strong> ${internship.skillsRequired.join(", ")}</p>
+      <a href="${internship.link}" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-full font-semibold shadow-lg hover:bg-blue-700 transition duration-300">
+        Apply Now
+      </a>
+    `;
+    internshipsContainer.appendChild(internshipCard);
+  });
+
+  // Add Jobs
+  advancedData.jobs.forEach((job) => {
+    const jobCard = document.createElement("div");
+    jobCard.className = "job-card";
+    jobCard.innerHTML = `
+      <h4 class="text-2xl font-semibold mb-4">${job.title}</h4>
+      <p class="text-gray-600"><strong>Company:</strong> ${job.company}</p>
+      <p class="text-gray-600"><strong>Location:</strong> ${job.location}</p>
+      <p class="text-gray-600">${job.description}</p>
+      <p class="text-gray-600 mt-2"><strong>Skills Required:</strong> ${job.skillsRequired.join(", ")}</p>
+      <a href="${job.link}" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-full font-semibold shadow-lg hover:bg-blue-700 transition duration-300">
+        Apply Now
+      </a>
+    `;
+    jobsContainer.appendChild(jobCard);
+  });
+}
+
+// Call the function when Section 5 is shown
+document.querySelector('.nav-item[data-section="section5"]').addEventListener("click", populateAdvancedSection);
+
+const intermediateData2 = {
+   hackathons: [
+    {
+      title: "CodeFest 2023",
+      description: "A global hackathon focusing on innovative solutions for real-world problems. Open to all skill levels.",
+      link: "#",
+    },
+    {
+      title: "Hack the Future",
+      description: "A hackathon for students to build projects related to AI, blockchain, and IoT.",
+      link: "#",
+    },
+    {
+      title: "GreenTech Hackathon",
+      description: "A sustainability-focused hackathon to develop solutions for environmental challenges.",
+      link: "#",
+    },
+    {
+      title: "HealthTech Hackathon",
+      description: "A hackathon to build innovative solutions for healthcare challenges.",
+      link: "#",
+    },
+    {
+      title: "FinTech Hackathon",
+      description: "A hackathon to create solutions for financial technology challenges.",
+      link: "#",
+    },
+  ]
+}
+
+const intermediateData1 = {
+  projects: [
+    {
+      title: "Build a Portfolio Website",
+      description: "Create a personal portfolio website using HTML, CSS, and JavaScript to showcase your skills and projects.",
+      link: "#",
+    },
+    {
+      title: "Develop a To-Do App",
+      description: "Build a to-do app using React to practice frontend development and state management.",
+      link: "#",
+    },
+    {
+      title: "Create a REST API",
+      description: "Develop a REST API using Node.js and Express to learn backend development and API design.",
+      link: "#",
+    },
+    {
+      title: "Design a Chat Application",
+      description: "Build a real-time chat application using WebSocket and React.",
+      link: "#",
+    },
+    {
+      title: "Build a Weather App",
+      description: "Create a weather app using a public API and React.",
+      link: "#",
+    },
+  ],
+};
+      
+      const advancedData = {
+  internships: [
+    {
+      title: "Software Development Intern",
+      company: "Tech Corp",
+      location: "Remote",
+      description: "Work on cutting-edge software projects and gain hands-on experience with a global team.",
+      skillsRequired: ["Python", "JavaScript", "React"],
+      link: "#",
+    },
+    {
+      title: "UI/UX Design Intern",
+      company: "Design Studio",
+      location: "New York, NY",
+      description: "Collaborate with designers to create user-friendly interfaces for web and mobile applications.",
+      skillsRequired: ["Figma", "Adobe XD", "Graphic Design"],
+      link: "#",
+    },
+    {
+      title: "Data Science Intern",
+      company: "Data Insights",
+      location: "San Francisco, CA",
+      description: "Analyze large datasets and build predictive models using machine learning techniques.",
+      skillsRequired: ["Python", "SQL", "Machine Learning"],
+      link: "#",
+    },
+  ],
+  jobs: [
+    {
+      title: "Full Stack Developer",
+      company: "Web Solutions",
+      location: "Remote",
+      description: "Develop and maintain web applications using modern technologies like React and Node.js.",
+      skillsRequired: ["JavaScript", "React", "Node.js"],
+      link: "#",
+    },
+    {
+      title: "Graphic Designer",
+      company: "Creative Agency",
+      location: "Los Angeles, CA",
+      description: "Create visually stunning designs for marketing campaigns and digital platforms.",
+      skillsRequired: ["Graphic Design", "Adobe Photoshop", "Illustrator"],
+      link: "#",
+    },
+    {
+      title: "Data Analyst",
+      company: "Analytics Inc.",
+      location: "Chicago, IL",
+      description: "Analyze data trends and provide actionable insights to drive business decisions.",
+      skillsRequired: ["Python", "SQL", "Data Visualization"],
+      link: "#",
+    },
+  ],
+};
+
+
+    </script>
+  </body>
+</html>

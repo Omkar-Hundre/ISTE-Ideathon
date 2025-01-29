@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillEduu - Where Passion Meets Learning</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+            /* Animations */
+            @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+      .fade-in { animation: fadeIn 1s ease-out; }
+
+      /* Section Background */
+      #section5 {
+        background: whitesmoke;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: black;
+        padding: 20px;
+        position: relative;
+      }
+
+      /* Notification Icon */
+      .notification-btn {
+        position: absolute;
+        top: 100px;
+        right: 20px;
+        background: linear-gradient(135deg, #3b82f6 0%, #6ee7b7 100%);
+        border-radius: 50%;
+        padding: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: 0.3s;
+        z-index: 100;
+      }
+      .notification-btn:hover { transform: scale(1.1); }
+
+      /* Notification Pop-up */
+      .notification-popup {
+        display: none;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        width: 300px;
+        background: white;
+        color: black;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        z-index: 10;
+      }
+      .notification-popup h3 { font-size: 1.2rem; margin-bottom: 10px; }
+      .notification-popup p { font-size: 0.9rem; margin: 5px 0; }
+
+      /* Course Container */
+      .course-container {
+        display: flex;
+        margin-top: 10px;
+        width: 100%;
+        height: 90vh;
+        background: rgb(255, 255, 255);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Left Panel */
+      .course-list {
+        width: 35%;
+        background: rgba(144, 130, 130, 0.2);
+        padding: 20px;
+        overflow-y: auto;
+        border-right: 2px solid rgba(255, 255, 255, 0.2);
+      }
+      .course-item {
+        background: rgba(108, 103, 103, 0.3);
+        padding: 12px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        text-align: center;
+        transition: 0.3s;
+      }
+      .course-item:hover, .course-item.active {
+        background: rgba(255, 255, 255, 0.6);
+        transform: scale(1.05);
+      }
+
+      /* Right Panel */
+      .video-section {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        text-align: center;
+      }
+      .video-container {
+        width: 100%;
+        max-width: 700px;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+      .video-container iframe {
+        width: 100%;
+        height: 350px;
+        border-radius: 8px;
+      }
+
+      /* Info & Completion Status */
+      .video-info-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 90%;
+        max-width: 700px;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 10px;
+        border-radius: 8px;
+        margin-top: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+      .status {
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-weight: bold;
+      }
+      .completed { background: #34d399; color: white; }
+      .pending { background: #fbbf24; color: black; }
+
+      /* Notification Pop-up */
+      .notification-popup {
+        display: none;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        width: 350px;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(15px);
+        color: black;
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        z-index: 10;
+        animation: slideIn 0.3s ease-in-out;
+      }
+
+      @keyframes slideIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .notification-popup h3 {
+        font-size: 1.4rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #2563eb;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+        padding-bottom: 5px;
+      }
+
+      .notification-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.3);
+        margin-bottom: 8px;
+        transition: 0.3s;
+      }
+
+      .notification-item:hover {
+        background: rgba(255, 255, 255, 0.5);
+        transform: scale(1.02);
+      }
+
+      .notification-icon {
+        background: #3b82f6;
+        color: white;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin-right: 10px;
+        font-size: 1.2rem;
+      }
+
+      .notification-text {
+        font-size: 0.95rem;
+        color: #374151;
+      }
+
+      .notification-date {
+        font-size: 0.8rem;
+        color: #6b7280;
+        margin-top: 3px;
+      }
+      /* Bottom Navigation */
+      .bottom-nav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 12px;
+        border-radius: 10px;
+        margin-top: 15px;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        padding: 8px 12px;
+        border-radius: 6px;
+        transition: 0.3s;
+      }
+
+      .nav-item.unlocked {
+        background: #34d399;
+        color: white;
+      }
+
+      .nav-item.locked {
+        background: rgba(255, 255, 255, 0.3);
+        color: #6b7280;
+      }
+
+      .nav-item.locked:hover {
+        transform: none;
+      }
+
+      .lock-icon {
+        margin-left: 6px;
+        font-size: 1rem;
+        color: #6b7280;
+      }
+
+      /* Popup Styles */
+      .popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4); /* Soft dark background */
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        animation: fadeIn 0.3s ease-in-out;
+      }
+
+      /* Popup Content Box */
+      .popup-content {
+        background: rgba(255, 255, 255, 0.9); /* Soft white with slight transparency */
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        color: #333;
+        width: 380px;
+        max-width: 90%;
+        animation: slideUp 0.5s ease-out;
+      }
+
+      /* Popup Message */
+      .popup-message {
+        font-size: 16px;
+        line-height: 1.5;
+        color: #4a4a4a; /* Neutral dark color */
+        margin-bottom: 20px;
+        font-weight: 500;
+      }
+
+      /* Button Styling */
+      .popup-button {
+        padding: 12px 24px;
+        font-size: 15px;
+        background-color: #34d399; /* Light green for consistency */
+        color: white;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-weight: 600;
+      }
+
+      .popup-button:hover {
+        background-color: #2bb85a; /* Slightly darker shade */
+      }
+
+      .popup-button:focus {
+        outline: none;
+      }
+
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideUp {
+        0% {
+          transform: translateY(50px);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+/* Navbar Styles */
+.navbar {
+        background: linear-gradient(135deg, #3b82f6 0%, #6ee7b7 100%);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #e0e7ff;
+            transform: translateY(-2px);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+  <nav class="navbar">
+    <ul class="nav-links">
+        <li><a href="dashboard.html" class="nav-link">Home</a></li>
+        <li><a href="course.html" class="nav-link">Course</a></li>
+        <li><a href="Competitions.html" class="nav-link">Competitions</a></li>
+        <li><a href="Intern.html" class="nav-link">Internships & Jobs</a></li>
+        <li><a href="workshop.html" class="nav-link">Workshops & Bootcamps</a></li>
+    </ul>
+</nav>
+<!-- Notification Button -->
+<button class="notification-btn" onclick="toggleNotifications()">🔔</button>
+
+<!-- Notification Pop-up -->
+<div class="notification-popup" id="notificationPopup">
+  <h3>Latest Updates</h3>
+  <div id="notificationsList"></div>
+</div>
+
+<!-- My Course Section -->
+<section id="section5">
+  <div class="course-container fade-in">
+    
+    <!-- Left Panel: Topics -->
+    <div class="relative flex flex-col justify-between course-list">
+      <div>
+        <h3 class="mb-4 text-3xl font-bold">Frontend Development</h3>
+      <div id="topicList"></div>
+      </div>
+      <div class="bottom-nav">
+        <button class="nav-item unlocked">Basic</button>
+        <button class="nav-item locked">Intermediate <span class="lock-icon">🔒</span></button>
+<button class="nav-item locked">Advance <span class="lock-icon">🔒</span></button>
+
+      </div>
+    </div>
+
+    <!-- Right Panel: Video -->
+    <div class="video-section">
+      <h3 class="mb-4 text-2xl font-bold">Selected Topic: <span id="selectedTopic">None</span></h3>
+      <div class="video-container">
+        <p class="text-lg text-gray-200">Select a topic to view the video.</p>
+      </div>
+      <div class="video-info-container">
+        <p id="topicInfo" class="text-gray-200">No topic selected</p>
+        <span id="completionStatus" class="status pending">Pending</span>
+      </div>
+    </div>
+
+  </div>
+  <!-- Locked Level Popup -->
+  <div id="lockedPopup" class="hidden popup">
+    <div class="popup-content">
+      <p class="popup-message">You need to complete the Basic Level before accessing Intermediate or Advanced topics.</p>
+      <button class="popup-button" onclick="closePopup()">Got it</button>
+    </div>
+  </div>
+  
+
+</section>
+
+<script>
+    // Course Data
+    const courseData = [
+      { topic: "HTML Basics", video: "https://www.youtube.com/embed/qz0aGYrrlhU", info: "Learn the structure of web pages.", status: "Completed" },
+      { topic: "CSS Fundamentals", video: "https://www.youtube.com/embed/1Rs2ND1ryYc", info: "Style your web pages with CSS.", status: "Pending" },
+      { topic: "JavaScript Essentials", video: "https://www.youtube.com/embed/hdI2bqOjy3c", info: "Add interactivity with JavaScript.", status: "Pending" }
+    ];
+  
+  
+    // Load Topics
+    function loadTopics() {
+      const topicList = document.getElementById("topicList");
+      topicList.innerHTML = "";
+      courseData.forEach((item, index) => {
+        const button = document.createElement("div");
+        button.textContent = item.topic;
+        button.className = "course-item";
+        button.onclick = () => displayVideo(index, button);
+        topicList.appendChild(button);
+      });
+    }
+  
+    // Display Video
+    function displayVideo(index, element) {
+      document.getElementById("selectedTopic").textContent = courseData[index].topic;
+      document.querySelector(".video-container").innerHTML = `<iframe src="${courseData[index].video}" frameborder="0" allowfullscreen></iframe>`;
+      document.getElementById("topicInfo").textContent = courseData[index].info;
+      document.getElementById("completionStatus").textContent = courseData[index].status;
+      document.getElementById("completionStatus").className = `status ${courseData[index].status.toLowerCase()}`;
+    }
+  
+   // Enhanced Notifications Data
+  const notifications = [
+  { message: "🚀 New Hackathon: AI Challenge 2025!", date: "Jan 30, 2025" },
+  { message: "📢 Frontend Bootcamp Enrollment Open", date: "Feb 10, 2025" },
+  { message: "🎯 UI/UX Contest - Win Prizes!", date: "Feb 15, 2025" }
+  ];
+  
+  // Function to Show Notifications
+  function toggleNotifications() {
+  const popup = document.getElementById("notificationPopup");
+  popup.style.display = popup.style.display === "block" ? "none" : "block";
+  
+  document.getElementById("notificationsList").innerHTML = notifications.map(n => `
+    <div class="notification-item">
+      <div class="notification-icon">🔔</div>
+      <div>
+        <p class="notification-text">${n.message}</p>
+        <p class="notification-date">${n.date}</p>
+      </div>
+    </div>
+  `).join("");
+  }
+  
+  
+    loadTopics();
+  
+  // Function to check if Basic level is completed
+  function checkBasicCompletion() {
+  return courseData[0].status === "Completed"; // Assuming the Basic level is the first topic
+  }
+  
+  // Function to show the locked level popup
+  function showLockedPopup() {
+  document.getElementById("lockedPopup").style.display = "flex";
+  }
+  
+  // Function to close the popup
+  function closePopup() {
+  document.getElementById("lockedPopup").style.display = "none";
+  }
+  
+  // Modify the nav-item locked buttons to check completion before allowing access
+  document.addEventListener("DOMContentLoaded", function() {
+  // Get all the locked nav items and add the click event listener
+  const lockedItems = document.querySelectorAll('.nav-item.locked');
+  
+  lockedItems.forEach(item => {
+    item.addEventListener('click', function() {
+      showLockedPopup();
+    });
+  });
+  });
+  
+  </script>
+</body>
+</html>

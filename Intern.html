@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkillEduu - Where Passion Meets Learning</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Custom animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+      .fade-in {
+        animation: fadeIn 1s ease-out;
+      }
+      .float {
+        animation: float 4s ease-in-out infinite;
+      }
+      .gradient-bg {
+        background: linear-gradient(135deg, #6ee7b7 0%, #3b82f6 100%);
+      }
+      /* Hide all sections by default */
+      section {
+        display: none;
+        height: 100vh;
+        width: 100vw;
+      }
+      /* Show the active section */
+      section.active {
+        display: block !important; /* Override flex display */
+    padding-top: 70px; /* Offset for fixed navbar */
+      }
+      /* Ensure the button is above the wave SVG */
+      .get-started-button {
+        position: relative;
+        z-index: 10; /* Higher z-index to ensure it's above the SVG */
+      }
+      
+      /* Floating Circles Animation */
+      .floating-circles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1;
+      }
+      .floating-circles div {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        animation: float 5s infinite;
+      }
+      .floating-circles div:nth-child(1) {
+        width: 150px;
+        height: 150px;
+        top: 10%;
+        left: 20%;
+        animation-duration: 6s;
+      }
+      .floating-circles div:nth-child(2) {
+        width: 100px;
+        height: 100px;
+        top: 50%;
+        left: 70%;
+        animation-duration: 8s;
+      }
+      .floating-circles div:nth-child(3) {
+        width: 200px;
+        height: 200px;
+        top: 70%;
+        left: 40%;
+        animation-duration: 10s;
+      }
+      .floating-circles div:nth-child(4) {
+        width: 200px;
+        height: 200px;
+        top: 10%;
+        left: 60%;
+        animation-duration: 10s;
+      }
+      .floating-circles div:nth-child(5) {
+        width: 200px;
+        height: 200px;
+        top: 38%;
+        left: 3%;
+        animation-duration: 10s;
+      }
+      
+      /* Floating Shapes Animation */
+      .floating-shapes {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 2;
+      }
+      .floating-shapes div {
+        position: absolute;
+        background: linear-gradient(135deg, #6ee7b7 0%, #3b82f6 100%);
+        border-radius: 50%;
+        animation: float 10s infinite;
+      }
+      .floating-shapes div:nth-child(1) {
+        width: 200px;
+        height: 200px;
+        top: 30%;
+        left: 5%;
+        animation-duration: 8s;
+      }
+      .floating-shapes div:nth-child(2) {
+        width: 150px;
+        height: 150px;
+        top: 50%;
+        left: 80%;
+        animation-duration: 12s;
+      }
+      .floating-shapes div:nth-child(3) {
+        width: 100px;
+        height: 100px;
+        top: 80%;
+        left: 34%;
+        animation-duration: 10s;
+      }
+      
+.overflow-x-auto {
+  overflow-x: auto;
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+.overflow-x-auto::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}
+      /* Hide arrows when not needed */
+      .scroll-left.disabled,
+      .scroll-right.disabled {
+        opacity: 0.3;
+        pointer-events: none;
+      }
+      /* Internship and Job Card Styling */
+      #section5 {
+        height: 100vh; /* Full viewport height */
+        overflow-y: auto; /* Enable vertical scrolling */
+        scrollbar-width: none; /* Hide scrollbar for Firefox */
+        -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+      }
+      
+      #section5::-webkit-scrollbar {
+        display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+      }
+      #Setion5BackButton{
+        background: linear-gradient(135deg, #6ee7b7 0%, #3b82f6 100%);
+      }
+      #Setion5Heading{
+        background: linear-gradient(135deg, #6ee7b7 0%, #3b82f6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .internship-card,
+      .job-card {
+        background-color: #f9fafb; /* Soft gray background */
+        border: 1px solid #e5e7eb; /* Light gray border */
+        border-radius: 12px; /* Rounded corners */
+        padding: 24px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .internship-card:hover,
+      .job-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(59, 130, 246, 0.1); /* Blue shadow */
+      }
+      .internship-card h4,
+      .job-card h4 {
+        color: #3b82f6; /* Blue heading */
+        margin-bottom: 16px;
+      }
+      .internship-card p,
+      .job-card p {
+        color: #4b5563; /* Gray text */
+      }
+      .internship-card a,
+      .job-card a {
+        transition: background-color 0.3s ease;
+      }
+
+      /* Navbar Styles */
+      .navbar {
+            background: linear-gradient(135deg, #3b82f6 0%, #6ee7b7 100%);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #e0e7ff;
+            transform: translateY(-2px);
+        }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-900 font-sans overflow-hidden">
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="dashboard.html" class="nav-link">Home</a></li>
+            <li><a href="course.html" class="nav-link">Course</a></li>
+            <li><a href="Competitions.html" class="nav-link">Competitions</a></li>
+            <li><a href="Intern.html" class="nav-link">Internships & Jobs</a></li>
+            <li><a href="workshop.html" class="nav-link">Workshops & Bootcamps</a></li>
+        </ul>
+    </nav>
+    <!-- Section 5: Advanced Section -->
+    <section id="section5" class="bg-white text-gray-900 active">
+      <!-- Floating Shapes Background -->
+      <div class="floating-shapes">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div class="w-full max-w-6xl mx-auto p-8 relative z-10">
+        <!-- Heading -->
+        <h2 id="Setion5Heading" class="text-4xl font-bold mb-8 text-center">
+          Internships & Jobs
+        </h2>
+
+        <!-- Container for Internships and Jobs -->
+        <div class="container">
+          <!-- Internships Section -->
+          <div class="mb-12">
+            <h3 class="text-3xl font-bold mb-6">Internships</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 InternshipCards">
+              <!-- Internship Cards will be dynamically added here -->
+            </div>
+          </div>
+
+          <!-- Jobs Section -->
+          <div>
+            <h3 class="text-3xl font-bold mb-6">Job Opportunities</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 JobCards">
+              <!-- Job Cards will be dynamically added here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <script>
+      const advancedData = {
+  internships: [
+    {
+      title: "Software Development Intern",
+      company: "Tech Corp",
+      location: "Remote",
+      description: "Work on cutting-edge software projects and gain hands-on experience with a global team.",
+      skillsRequired: ["Python", "JavaScript", "React"],
+      link: "#",
+    },
+    {
+      title: "UI/UX Design Intern",
+      company: "Design Studio",
+      location: "New York, NY",
+      description: "Collaborate with designers to create user-friendly interfaces for web and mobile applications.",
+      skillsRequired: ["Figma", "Adobe XD", "Graphic Design"],
+      link: "#",
+    },
+    {
+      title: "Data Science Intern",
+      company: "Data Insights",
+      location: "San Francisco, CA",
+      description: "Analyze large datasets and build predictive models using machine learning techniques.",
+      skillsRequired: ["Python", "SQL", "Machine Learning"],
+      link: "#",
+    },
+  ],
+  jobs: [
+    {
+      title: "Full Stack Developer",
+      company: "Web Solutions",
+      location: "Remote",
+      description: "Develop and maintain web applications using modern technologies like React and Node.js.",
+      skillsRequired: ["JavaScript", "React", "Node.js"],
+      link: "#",
+    },
+    {
+      title: "Graphic Designer",
+      company: "Creative Agency",
+      location: "Los Angeles, CA",
+      description: "Create visually stunning designs for marketing campaigns and digital platforms.",
+      skillsRequired: ["Graphic Design", "Adobe Photoshop", "Illustrator"],
+      link: "#",
+    },
+    {
+      title: "Data Analyst",
+      company: "Analytics Inc.",
+      location: "Chicago, IL",
+      description: "Analyze data trends and provide actionable insights to drive business decisions.",
+      skillsRequired: ["Python", "SQL", "Data Visualization"],
+      link: "#",
+    },
+  ],
+};
+
+// Function to populate Advanced Section with data
+function populateAdvancedSection() {
+  const internshipsContainer = document.querySelector(".InternshipCards");
+  const jobsContainer = document.querySelector(".JobCards");
+
+  // Clear previous content
+  internshipsContainer.innerHTML = "";
+  jobsContainer.innerHTML = "";
+
+  // Add Internships
+  advancedData.internships.forEach((internship) => {
+    const internshipCard = document.createElement("div");
+    internshipCard.className = "internship-card";
+    internshipCard.innerHTML = `
+      <h4 class="text-2xl font-semibold mb-4">${internship.title}</h4>
+      <p class="text-gray-600"><strong>Company:</strong> ${internship.company}</p>
+      <p class="text-gray-600"><strong>Location:</strong> ${internship.location}</p>
+      <p class="text-gray-600">${internship.description}</p>
+      <p class="text-gray-600 mt-2"><strong>Skills Required:</strong> ${internship.skillsRequired.join(", ")}</p>
+      <a href="${internship.link}" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-full font-semibold shadow-lg hover:bg-blue-700 transition duration-300">
+        Apply Now
+      </a>
+    `;
+    internshipsContainer.appendChild(internshipCard);
+  });
+
+  // Add Jobs
+  advancedData.jobs.forEach((job) => {
+    const jobCard = document.createElement("div");
+    jobCard.className = "job-card";
+    jobCard.innerHTML = `
+      <h4 class="text-2xl font-semibold mb-4">${job.title}</h4>
+      <p class="text-gray-600"><strong>Company:</strong> ${job.company}</p>
+      <p class="text-gray-600"><strong>Location:</strong> ${job.location}</p>
+      <p class="text-gray-600">${job.description}</p>
+      <p class="text-gray-600 mt-2"><strong>Skills Required:</strong> ${job.skillsRequired.join(", ")}</p>
+      <a href="${job.link}" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-full font-semibold shadow-lg hover:bg-blue-700 transition duration-300">
+        Apply Now
+      </a>
+    `;
+    jobsContainer.appendChild(jobCard);
+  });
+}
+
+// Call the function when Section 5 is shown
+// Activate section5 by default when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    populateAdvancedSection();
+    document.getElementById('section5').classList.add('active');
+});
+
+// Add click handler for Internship & Jobs nav link
+document.querySelector('[href="Intern.html"]').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('section5').classList.add('active');
+    populateAdvancedSection();
+});
+
+
+
+    </script>
+  </body>
+</html>
